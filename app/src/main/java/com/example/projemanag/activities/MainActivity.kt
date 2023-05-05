@@ -32,6 +32,10 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         binding!!.navView.setNavigationItemSelectedListener(this)
 
         FirestoreClass().loadUserData(this)
+
+        fab_create_board.setOnClickListener {
+            startActivity(Intent(this, CreateBoardActivity::class.java))
+        }
     }
 
     @SuppressLint("ResourceType")
