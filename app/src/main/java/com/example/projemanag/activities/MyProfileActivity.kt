@@ -241,6 +241,7 @@ class MyProfileActivity : BaseActivity() {
 
         hideProgressDialog()
 
+        setResult(Activity.RESULT_OK)
         finish()
     }
 
