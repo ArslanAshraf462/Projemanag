@@ -74,9 +74,9 @@ open class BoardItemsAdapter(
 
     //  A function for OnClickListener where the Interface is the expected parameter..
 
-//    fun setOnClickListener(onClickListener: OnClickListener) {
-//        this.onClickListener = onClickListener
-//    }
+    fun setOnClickListener(onClickListener: OnClickListener) {
+        this.onClickListener = onClickListener
+    }
 
     //  An interface for onclick items.
 
