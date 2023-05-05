@@ -28,6 +28,28 @@ class FirestoreClass {
             }
     }
 
+    fun getBoardsList(activity: MainActivity){
+        mFireStore.collection(Constants.BOARDS)
+            .whereArrayContains(Constants.ASSIGNED_TO, getCurrentUserId())
+            .get()
+            .addOnSuccessListener {
+                document ->
+                Log.i(activity.javaClass.simpleName, document.documents.toString())
+                val boardList : ArrayList<Board> = ArrayList()
+                for (i in document.documents){
+                    val board = i.toObject(Board::class.java)!!
+                    board.documentId = i.id
+                    boardList.add(board)
+                }
+                activity.populateBoardsListToUI(boardList)
+            }
+            .addOnFailureListener {
+                e ->
+                activity.hideProgressDialog()
+                Log.e(activity.javaClass.simpleName, "Error while creating a board.", e)
+            }
+    }
+
     fun createBoard(activity : CreateBoardActivity, board : Board){
         mFireStore.collection(Constants.BOARDS)
             .document()
@@ -50,7 +72,7 @@ class FirestoreClass {
             }
     }
 
-     fun loadUserData(activity: Activity){
+     fun loadUserData(activity: Activity, readBoardsList : Boolean = false){
         mFireStore.collection(
             Constants.USERS
         ).document(getCurrentUserId())
@@ -62,7 +84,7 @@ class FirestoreClass {
                         activity.signInSuccess(loggedInUser)
                     }
                     is MainActivity -> {
-                        activity.updateNavigationUserDetails(loggedInUser)
+                        activity.updateNavigationUserDetails(loggedInUser, readBoardsList)
                     }
                     is MyProfileActivity -> {
                         activity.setUserDataInUI(loggedInUser)
