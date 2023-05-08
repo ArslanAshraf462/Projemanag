@@ -20,6 +20,7 @@ import kotlinx.android.synthetic.main.dialog_search_member.*
 
 class MembersActivity : BaseActivity() {
     private lateinit var mBoardDetails : Board
+    private lateinit var mAssignedMembersList:ArrayList<User>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_members)
@@ -56,6 +57,8 @@ class MembersActivity : BaseActivity() {
 
     fun setupMembersList(list: ArrayList<User>) {
 
+        mAssignedMembersList = list
+
         hideProgressDialog()
 
         rv_members_list.layoutManager = LinearLayoutManager(this@MembersActivity)
@@ -90,6 +93,8 @@ class MembersActivity : BaseActivity() {
 
             if (email.isNotEmpty()) {
                 dialog.dismiss()
+                showProgressDialog(resources.getString(R.string.please_wait))
+                FirestoreClass().getMemberDetails(this@MembersActivity, email)
             } else {
                 Toast.makeText(
                     this@MembersActivity,
@@ -103,5 +108,21 @@ class MembersActivity : BaseActivity() {
         })
         //Start the dialog and display it on screen.
         dialog.show()
+    }
+
+    fun memberDetails(user: User) {
+
+        mBoardDetails.assignedTo.add(user.id)
+
+        FirestoreClass().assignMemberToBoard(this@MembersActivity, mBoardDetails, user)
+    }
+
+    fun memberAssignSuccess(user: User) {
+
+        hideProgressDialog()
+
+        mAssignedMembersList.add(user)
+
+        setupMembersList(mAssignedMembersList)
     }
 }
