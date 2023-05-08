@@ -20,6 +20,7 @@ object Constants {
     const val DOCUMENT_ID : String = "documentsId"
     const val TASK_LIST :String = "taskList"
     const val BOARD_DETAIL : String = "board_detail"
+    const val ID: String = "id"
 
     fun showImageChooser(activity : Activity) {
         // An intent for launching the image selection of phone storage.
