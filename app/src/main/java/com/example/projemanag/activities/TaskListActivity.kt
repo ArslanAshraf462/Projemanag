@@ -2,9 +2,12 @@ package com.example.projemanag.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.projemanag.R
+import com.example.projemanag.adapters.TaskListItemsAdapter
 import com.example.projemanag.firebase.FirestoreClass
 import com.example.projemanag.models.Board
+import com.example.projemanag.models.Task
 import com.example.projemanag.utilis.Constants
 import kotlinx.android.synthetic.main.activity_task_list.*
 
@@ -38,5 +41,17 @@ class TaskListActivity : BaseActivity() {
     fun boardDetails(board: Board){
         hideProgressDialog()
         setupActionBar(board.name)
+        // Setup the task list view using the adapter class and task list of the board.
+        // Here we are appending an item view for adding a list task list for the board.
+        val addTaskList = Task(resources.getString(R.string.add_list))
+        board.taskList.add(addTaskList)
+
+        rv_task_list.layoutManager =
+            LinearLayoutManager(this@TaskListActivity, LinearLayoutManager.HORIZONTAL, false)
+        rv_task_list.setHasFixedSize(true)
+
+        // Create an instance of TaskListItemsAdapter and pass the task list to it.
+        val adapter = TaskListItemsAdapter(this@TaskListActivity, board.taskList)
+        rv_task_list.adapter = adapter // Attach the adapter to the recyclerView.
     }
 }
