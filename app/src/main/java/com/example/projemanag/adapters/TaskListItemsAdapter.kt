@@ -52,6 +52,7 @@ open class TaskListItemsAdapter(
 //      of the given type. You can either create a new View manually or inflate it from an XML
 //      layout file.
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, @SuppressLint("RecyclerView") position: Int) {
         val model = list[position]
 

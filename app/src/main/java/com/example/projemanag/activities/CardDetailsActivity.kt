@@ -15,6 +15,7 @@ import com.example.projemanag.models.Card
 import com.example.projemanag.models.Task
 import com.example.projemanag.models.User
 import com.example.projemanag.utilis.Constants
+import com.projemanag.dialogs.MembersListDialog
 import kotlinx.android.synthetic.main.activity_card_details.*
 
 class CardDetailsActivity : BaseActivity() {
@@ -55,6 +56,10 @@ class CardDetailsActivity : BaseActivity() {
 
         tv_select_label_color.setOnClickListener {
             labelColorsListDialog()
+        }
+
+        tv_select_members.setOnClickListener {
+            membersListDialog()
         }
     }
 
@@ -126,6 +131,36 @@ class CardDetailsActivity : BaseActivity() {
         if (intent.hasExtra(Constants.BOARD_MEMBERS_LIST)){
             mMembersDetailList = intent.getParcelableArrayListExtra(Constants.BOARD_MEMBERS_LIST)!!
         }
+    }
+
+    private fun membersListDialog(){
+        var cardAssignedMembersList = mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition].assignedTo
+
+        if (cardAssignedMembersList.size > 0 ){
+            for (i in mMembersDetailList.indices){
+                for (j in cardAssignedMembersList){
+                    if (mMembersDetailList[i].id == j){
+                        mMembersDetailList[i].selected = true
+                    }
+                }
+            }
+        }else{
+            for (i in mMembersDetailList.indices){
+                mMembersDetailList[i].selected = false
+            }
+        }
+
+        val listDialog = object : MembersListDialog(
+            this,
+            mMembersDetailList,
+            resources.getString(R.string.str_select_member)
+        ){
+            override fun onItemSelected(user: User, action: String) {
+
+            }
+
+        }
+        listDialog.show()
     }
 
     // A function to get the result of add or updating the task list.
