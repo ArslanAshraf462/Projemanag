@@ -1,6 +1,7 @@
 package com.example.projemanag.activities
 
 import android.os.Bundle
+import android.view.Menu
 import com.example.projemanag.R
 import com.example.projemanag.models.Board
 import com.example.projemanag.utilis.Constants
@@ -20,6 +21,10 @@ class CardDetailsActivity : BaseActivity() {
         setContentView(R.layout.activity_card_details)
         getIntentData()
         setupActionBar()
+
+        et_name_card_details.setText(mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition].name)
+
+        et_name_card_details.setSelection(et_name_card_details.text.toString().length)
     }
 
     private fun setupActionBar() {
@@ -36,6 +41,11 @@ class CardDetailsActivity : BaseActivity() {
         }
 
         toolbar_card_details_activity.setNavigationOnClickListener { onBackPressed() }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_delete_card, menu)
+        return super.onCreateOptionsMenu(menu)
     }
 
 
