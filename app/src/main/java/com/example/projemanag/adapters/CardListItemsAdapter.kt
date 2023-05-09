@@ -10,6 +10,7 @@ import com.example.projemanag.R
 import com.example.projemanag.models.Card
 import kotlinx.android.synthetic.main.item_card.view.*
 
+
 class CardListItemsAdapter(
     private val context: Context,
     private var list : ArrayList<Card>
@@ -31,6 +32,12 @@ class CardListItemsAdapter(
         if (holder is MyViewHolder) {
 
             holder.itemView.tv_card_name.text = model.name
+
+            holder.itemView.setOnClickListener {
+                if (onClickListener != null){
+                    onClickListener!!.onClick(position)
+                }
+            }
         }
     }
 
@@ -40,6 +47,10 @@ class CardListItemsAdapter(
 
     fun setOnClickListener(onClickListener: OnClickListener) {
         this.onClickListener = onClickListener
+    }
+
+    interface OnClickListener {
+        fun onClick(cardPosition: Int)
     }
 
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view)
